@@ -1,4 +1,4 @@
-package com.edielson.forum.forumalura;
+package com.edielson.forum;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.edielson.forum.forumalura;
+package com.edielson.forum;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
