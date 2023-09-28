@@ -77,7 +77,7 @@ Este é o back-end de um fórum de perguntas e respostas de cursos, desenvolvido
 Faça um fork do projeto, após isso, abra o terminal do git bash, na pasta onde deseja salvar o projeto, e digite o seguinte comando: 
 
 ```
-git@github.com:edielson-assis/forum-alura.git
+git clone git@github.com:edielson-assis/forum-alura.git
 ``` 
 Crie uma base de dados no MySQL com o nome **forum-alura**. Não é necessário criar as tabelas.
 
