@@ -1,0 +1,2 @@
+ALTER TABLE topic
+MODIFY COLUMN status_topic VARCHAR(100) NOT NULL;

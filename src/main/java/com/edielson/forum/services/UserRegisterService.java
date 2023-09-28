@@ -6,4 +6,6 @@ import com.edielson.forum.entities.User;
 public interface UserRegisterService {
     
     User create(UserDTO userDTO);
+
+    void delete(Long id);
 }

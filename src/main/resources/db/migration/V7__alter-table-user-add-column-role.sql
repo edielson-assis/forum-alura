@@ -1,0 +1,4 @@
+ALTER TABLE user
+ADD COLUMN role_id BIGINT,
+ADD CONSTRAINT fk_user_role FOREIGN KEY (role_id) REFERENCES role(id),
+CHANGE COLUMN nome name VARCHAR(100);
