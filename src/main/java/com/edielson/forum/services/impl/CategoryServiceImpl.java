@@ -72,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(categoryDTO.name());
     }
     
-    private void existsByName(Category category) {
+    private synchronized void existsByName(Category category) {
         boolean existName = repository.existsByName(category.getName());
         if (existName) {
             throw new ValidationException("Categoria já cadastrada");

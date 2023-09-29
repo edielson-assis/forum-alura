@@ -12,6 +12,7 @@ import com.edielson.forum.dto.CourseResponseDTO;
 import com.edielson.forum.entities.Course;
 import com.edielson.forum.repositories.CourseRepository;
 import com.edielson.forum.security.exceptions.ValidationException;
+import com.edielson.forum.services.CategoryService;
 import com.edielson.forum.services.CourseService;
 import com.edielson.forum.services.exceptions.DataBaseException;
 import com.edielson.forum.services.exceptions.ObjectNotFoundException;
@@ -23,11 +24,13 @@ import lombok.AllArgsConstructor;
 public class CourseServiceImpl implements CourseService {
 
     private CourseRepository repository;
+    private CategoryService categoryService;
 
     @Override
     public Course create(CourseDTO courseDTO) {
         Course course = fromDto(courseDTO);
         existsByName(course);
+        categoryService.findById(course.getCategory().getId());
         return repository.save(course);
     }
 
@@ -56,6 +59,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course update(Long id, CourseDTO courseDTO) {
         Course course = findById(id);
+        categoryService.findById(id);
         try {
             updateData(course, courseDTO);
             return repository.save(course);
@@ -72,7 +76,7 @@ public class CourseServiceImpl implements CourseService {
         course.setName(courseDTO.name());
     }
     
-    private void existsByName(Course course) {
+    private synchronized void existsByName(Course course) {
         boolean existName = repository.existsByName(course.getName());
         if (existName) {
             throw new ValidationException("Curso já cadastrado");

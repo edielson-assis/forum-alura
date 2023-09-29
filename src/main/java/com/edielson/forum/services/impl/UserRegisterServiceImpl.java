@@ -43,14 +43,14 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         return new User(null, userDTO.name(), userDTO.email(), userDTO.password(), role);
     }
     
-    private void existsByEmail(User user) {
+    private synchronized void existsByEmail(User user) {
         boolean existEmail = repository.existsByEmail(user.getEmail());
         if (existEmail) {
             throw new ValidationException("Email já cadastrado");
         }
     }
 
-    private void existsByName(User user) {
+    private synchronized void existsByName(User user) {
         boolean existName = repository.existsByName(user.getName());
         if (existName) {
             throw new ValidationException("Nome já cadastrado");

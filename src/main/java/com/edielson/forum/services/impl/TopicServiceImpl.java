@@ -13,9 +13,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.edielson.forum.dto.CourseTopicDTO;
 import com.edielson.forum.dto.TopicDTO;
 import com.edielson.forum.dto.TopicResponseDTO;
 import com.edielson.forum.dto.TopicUpdateDTO;
+import com.edielson.forum.entities.Course;
 import com.edielson.forum.entities.Response;
 import com.edielson.forum.entities.Topic;
 import com.edielson.forum.entities.User;
@@ -23,6 +25,7 @@ import com.edielson.forum.entities.enums.StatusTopic;
 import com.edielson.forum.repositories.ResponseRepository;
 import com.edielson.forum.repositories.TopicRepository;
 import com.edielson.forum.security.exceptions.ValidationException;
+import com.edielson.forum.services.CourseService;
 import com.edielson.forum.services.TopicService;
 import com.edielson.forum.services.exceptions.DataBaseException;
 import com.edielson.forum.services.exceptions.ObjectNotFoundException;
@@ -35,11 +38,13 @@ public class TopicServiceImpl implements TopicService {
 
     private TopicRepository repository;
     private ResponseRepository responseRepository;
+    private CourseService courseService;
 
     @Override
     public Topic create(TopicDTO topicDTO) {
         Topic topic = fromDto(topicDTO);
         existByTopic(topic.getTitulo());
+        courseService.findById(topic.getCourse().getId());
         return repository.save(topic);
     }
 
@@ -72,6 +77,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public Topic update(Long id, TopicUpdateDTO topicUpdateDTO) {
         Topic topic = findById(id);
+        courseService.findById(id);
         try {
             updateData(topic, topicUpdateDTO);
 
@@ -88,15 +94,16 @@ public class TopicServiceImpl implements TopicService {
 
     private Topic fromDto(TopicDTO topicDTO) {
         Instant instant = Instant.now().atOffset(ZoneOffset.ofHours(-3)).toInstant();
+        CourseTopicDTO course = new CourseTopicDTO(topicDTO.course().id(), topicDTO.course().name());
 
-        return new Topic(null, topicDTO.titulo(), topicDTO.message(), instant, StatusTopic.NAO_RESPONDIDO, userAuthentication(), topicDTO.course());
+        return new Topic(null, topicDTO.titulo(), topicDTO.message(), instant, StatusTopic.NAO_RESPONDIDO, userAuthentication(), new Course(course));
     }
 
     private void updateData(Topic topic, TopicUpdateDTO topicUpdateDTO) {
         topic.setStatus(topicUpdateDTO.status());
     }
 
-    private void existByTopic(String titulo) {
+    private synchronized void existByTopic(String titulo) {
         boolean existTopic = repository.existsByTitulo(titulo);
         if (existTopic) {
             throw new ValidationException("Tópico já cadastrado");

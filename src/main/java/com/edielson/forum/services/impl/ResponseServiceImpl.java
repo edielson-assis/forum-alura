@@ -20,6 +20,7 @@ import com.edielson.forum.entities.Topic;
 import com.edielson.forum.entities.User;
 import com.edielson.forum.repositories.ResponseRepository;
 import com.edielson.forum.services.ResponseService;
+import com.edielson.forum.services.TopicService;
 import com.edielson.forum.services.exceptions.DataBaseException;
 import com.edielson.forum.services.exceptions.ObjectNotFoundException;
 
@@ -30,10 +31,12 @@ import lombok.AllArgsConstructor;
 public class ResponseServiceImpl implements ResponseService {
 
     private ResponseRepository repository;
+    private TopicService topicService;
 
     @Override
     public Response create(ResponseDTO responseDTO) {
         Response response = fromDto(responseDTO);
+        topicService.findById(response.getTopic().getId());
         return repository.save(response);
     }
 

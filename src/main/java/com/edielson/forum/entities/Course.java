@@ -2,6 +2,8 @@ package com.edielson.forum.entities;
 
 import java.io.Serializable;
 
+import com.edielson.forum.dto.CourseTopicDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +29,11 @@ public class Course implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public Course(CourseTopicDTO course) {
+        this.id = course.id();
+        this.name = course.name();
+    }
 
     public void setName(String name) {
         this.name = name;
