@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.edielson.forum.dto.CourseDTO;
 import com.edielson.forum.dto.CourseResponseDTO;
+import com.edielson.forum.entities.Category;
 import com.edielson.forum.entities.Course;
 import com.edielson.forum.repositories.CourseRepository;
 import com.edielson.forum.security.exceptions.ValidationException;
@@ -69,7 +70,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     private Course fromDto(CourseDTO courseDTO) {
-        return new Course(null, courseDTO.name(), courseDTO.category());
+        return new Course(null, courseDTO.name(), new Category(courseDTO.category()));
     }
 
     private void updateData(Course course, CourseDTO courseDTO) {

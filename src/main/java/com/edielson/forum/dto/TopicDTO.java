@@ -2,7 +2,6 @@ package com.edielson.forum.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public record TopicDTO(
 
@@ -12,6 +11,6 @@ public record TopicDTO(
     @NotBlank(message = "{message.obrigatorio}")
     String message,
 
-    @NotNull @Valid
+    @Valid
     CourseTopicDTO course) { 
 }
