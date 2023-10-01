@@ -88,7 +88,9 @@ Após executar o projeto, abra o seu navegador de internet e na barra de endere�
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
-Agora é só testar as funcionalidades do projeto. Não se esqueça de se registrar e fazer login para se autenticar na plataforma. Toda comunicação entre os endpoins é feita via token JWT.
+Agora é só testar as funcionalidades do projeto. Não se esqueça de se registrar e fazer login para se autenticar na plataforma. Toda comunicação entre os endpoints é feita via token JWT.
+
+Obs: Apenas usuários com o nível de acesso **admim** podem criar, alterar ou excluir cursos e categorias, etc. Por padrão uma conta é criada com o nível de acesso comum. Caso deseje alterar o nível de acesso de um usuário, essa alteração deverá ser feita diretamente no banco de dados, na coluna **role_id** da tabela user.
 
 ## Linguagens, dependencias e libs utilizadas :books:
 
